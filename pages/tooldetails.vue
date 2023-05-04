@@ -8,6 +8,9 @@
       tool-conditions
     v-col(cols="4")
       tool-repair
+  v-row.ma-0.pt-8.fill-width
+    v-col(cols="8")
+      line-chart
 </template>
 
 <script>
@@ -19,6 +22,7 @@ import ToolChartCopy from '../components/tools/ToolChartCopy.vue'
 import ToolConditions from '../components/tools/ToolConditions.vue'
 import ToolDetails from '../components/tools/ToolDetails.vue'
 import ToolRepair from '~/components/tools/ToolRepair.vue'
+import LineChart from '~/components/tools/LineChart.vue'
 
 export default {
   name: 'ToolsPage',
@@ -27,7 +31,8 @@ export default {
     ToolChartCopy,
     ToolConditions,
     ToolDetails,
-    ToolRepair
+    ToolRepair,
+    LineChart
   },
   layout: 'default',
   data () {
