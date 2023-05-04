@@ -1,16 +1,14 @@
 <template lang="pug">
 .tools-page.pa-0.ma-0.fill-width
   upper-title.ma-0(:title="'Tools Status'" :titleClass="'dark-background'")
-  v-row.ma-0.pt-8.fill-width
+  v-row.ma-0.pt-16.px-8.fill-width
     v-col(cols="12")
       tool-details(:product="productData")
-    v-col(cols="8")
-      tool-conditions
-    v-col(cols="4")
-      tool-repair
-  v-row.ma-0.pt-8.fill-width
-    v-col(cols="8")
+    v-col(cols="9")
       line-chart
+      tool-conditions.mt-3
+    v-col(cols="3")
+      tool-repair.fill-height
 </template>
 
 <script>
@@ -40,7 +38,7 @@ export default {
       // search: null
       productData: {
         name: 'SF 4-A22 CORDLESS DRILL DRIVER',
-        id: '1234',
+        id: 'T10-12118A',
         warranty: '2023-06-25',
         status: 'Normal',
         checktime: '6:00 PM, 4/1/2023',

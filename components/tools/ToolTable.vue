@@ -25,7 +25,7 @@ v-row.tool-table.justify-center
           p.mb-0 {{ item.status }}
           v-icon.ml-2(v-if="item.status === 'Need Maintenance'" small) mdi-wrench
           v-icon.ml-2(v-if="item.status === 'Normal'" small) mdi-check-circle
-          v-icon.ml-2(v-else small) mdi-clock-time-eight
+          v-icon.ml-2(v-if="item.status === 'Checking'" v-else small) mdi-clock-time-eight
 
       template(v-slot:item.action="{ item }")
         v-btn(
@@ -61,7 +61,7 @@ export default {
       desserts: [
         {
           id: 'T10-12118A',
-          name: 'SID 4-A22 CORDLESS IMPACT DRIVER',
+          name: 'SF 4-A22 CORDLESS DRILL DRIVER',
           dt: '06:48 PM, 24/1/2023',
           status: 'Normal',
           action: ''

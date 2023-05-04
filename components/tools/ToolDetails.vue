@@ -1,18 +1,25 @@
-<template>
-  <div class="card">
-    <div class="product">
-      <div class="product-image">
-        <img :src="product.image" alt="Product Image">
-      </div>
-      <div class="product-details">
-        <h3>{{ product.name }}</h3>
-        <p>Tool ID: {{ product.id }}</p>
-        <p>Warranty Date: {{ product.warranty }}</p>
-        <p>Last Checked Time: {{ product.checktime }}</p>
-        <p>Status: {{ product.status }}</p>
-      </div>
-    </div>
-  </div>
+<template lang="pug">
+  v-card.white.pa-4.rounded-xl
+    v-row.product
+      v-col.product-image(:cols="12" md="4")
+        v-img.border.rounded-xl(:src="product.image" alt="Product Image" max-height="200" contain)
+      v-col.product-details(:cols="12" md="8")
+        h2.mb-4 {{ product.name }}
+        p.mb-1 Tool ID : {{ product.id }}
+        p.mb-1 Warranty Date : {{ product.warranty }}
+        p.mb-1 Last Checked Time : {{ product.checktime }}
+        span.mb-1 Status :
+          |
+          v-chip.ml-2(
+            :color="getColor(product.status)"
+            outlined
+            pill
+          )
+            p.mb-0 {{ product.status }}
+            v-icon.ml-2(v-if="product.status === 'Need Maintenance'" small) mdi-wrench
+            v-icon.ml-2(v-if="product.status === 'Normal'" small) mdi-check-circle
+            v-icon.ml-2(v-if="product.status === 'Checking'" v-else small) mdi-clock-time-eight
+
 </template>
 
 <script>
@@ -21,31 +28,24 @@ export default {
   props: {
     // eslint-disable-next-line vue/require-default-prop
     product: Object // pass product data as props
+  },
+  methods: {
+    getColor (status) {
+      if (status === 'Normal') {
+        return this.$vuetify.theme.themes.light.green
+      } else if (status === 'Checking') {
+        return this.$vuetify.theme.themes.light.blue
+      } else {
+        return this.$vuetify.theme.themes.light.primary
+      }
+    }
   }
 }
 </script>
 
 <style>
-.product {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin: 20px;
-  /* background-color: white; */
+.border {
+  border: solid 1px rgba(0, 0, 0, .2) !important;
 }
 
-.product-image img {
-  width: 200px;
-  height: 200px;
-  object-fit: contain;
-  margin-right: 20px;
-}
-
-.product-details {
-  flex: 1;
-}
-
-.product-details h3 {
-  margin-top: 0;
-}
 </style>

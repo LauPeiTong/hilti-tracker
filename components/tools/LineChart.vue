@@ -1,7 +1,6 @@
-<template>
-  <div>
-    <canvas ref="chart"></canvas>
-  </div>
+<template lang="pug">
+  v-card.white.pa-4.rounded-xl
+    canvas(ref="chart" id="chart" height="100")
 </template>
 
 <script>
@@ -54,7 +53,13 @@ export default {
   },
   methods: {
     createChart () {
-      this.chart = new Chart(this.$refs.chart.getContext('2d'), {
+      const ctx = document.getElementById('chart').getContext('2d')
+
+      const gradient = ctx.createLinearGradient(0, 0, 0, 300)
+      gradient.addColorStop(0, 'rgba(253, 126, 20, 1)')
+      gradient.addColorStop(1, 'rgba(253, 126, 20, 0)')
+
+      this.chart = new Chart(ctx, {
         type: 'line',
         data: {
           labels: this.timestamps,
@@ -62,22 +67,23 @@ export default {
             {
               label: 'Temperature',
               data: this.temperatureData,
-              borderColor: 'rgba(75, 192, 192, 1)',
-              backgroundColor: 'rgba(75, 192, 192, 0.2)'
+              borderColor: '#FD7E14',
+              backgroundColor: gradient
             }
           ]
         },
         options: {
           scales: {
-            x: {
-              type: 'time',
-              time: {
-                unit: 'minute'
+            xAxis: {
+              title: {
+                display: true,
+                text: 'Month'
               }
             },
-            y: {
-              ticks: {
-                beginAtZero: true
+            yAxis: {
+              title: {
+                display: true,
+                text: 'Value'
               }
             }
           }

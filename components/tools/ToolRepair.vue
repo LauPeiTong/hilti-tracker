@@ -1,8 +1,8 @@
 <template>
-  <v-card class="mx-auto" max-width="350">
+  <v-card class="mx-auto rounded-xl" max-width="350">
     <v-img src="https://i.pinimg.com/originals/65/37/74/653774e85a6e6d07286b7cc10e760835.png"
-    height="270px"
-    cover/>
+      height="270px"
+      cover/>
 
     <v-card-title class="text-center">
       <b>Prediction Accuracy</b>

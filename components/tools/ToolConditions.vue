@@ -1,41 +1,43 @@
 ##Temperature Current Vobration components
 <template>
-  <div class="d-flex justify-center" style="gap: 5px; padding: 100px;">
-    <v-card class="mx-auto" max-width="180">
-      <v-card-text>
-        <div>Last checked value of</div>
-        <p class="text-h5 text--primary">
-          Current
-        </p>
-        <div class="text--primary">
-          +55% since yesterday
-        </div>
-      </v-card-text>
-    </v-card>
+  <div class="d-grid">
+    <v-row>
+      <v-col :cols="4">
+        <v-card class="mx-auto rounded-xl pa-4">
+          <div>Last checked value of</div>
+          <h2 class="">
+            Current
+          </h2>
+          <div class="">
+            +55% since yesterday
+          </div>
+        </v-card>
+      </v-col>
 
-    <v-card class="mx-auto" max-width="180">
-      <v-card-text>
-        <div>Last checked value of</div>
-        <p class="text-h5 text--primary">
-          Temperature
-        </p>
-        <div class="text--primary">
-          +23% since yesterday
-        </div>
-      </v-card-text>
-    </v-card>
+      <v-col :cols="4">
+        <v-card class="mx-auto rounded-xl pa-4">
+          <div>Last checked value of</div>
+          <h2>
+            Temperature
+          </h2>
+          <div class="text-primary">
+            +23% since yesterday
+          </div>
+        </v-card>
+      </v-col>
 
-    <v-card class="mx-auto" max-width="180">
-      <v-card-text>
-        <div>Last checked value of</div>
-        <p class="text-h5 text--primary">
-          Vibration
-        </p>
-        <div class="text--primary">
-          +36% since yesterday
-        </div>
-      </v-card-text>
-    </v-card>
+      <v-col :cols="4">
+        <v-card class="mx-auto rounded-xl pa-4">
+          <div>Last checked value of</div>
+          <h2>
+            Vibration
+          </h2>
+          <div class="text-primary">
+            +36% since yesterday
+          </div>
+        </v-card>
+      </v-col>
+    </v-row>
   </div>
 </template>
 
