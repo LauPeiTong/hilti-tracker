@@ -9,6 +9,8 @@
       tool-conditions.mt-3
     v-col(cols="3")
       tool-repair.fill-height
+    v-col(cols="91")
+      line-chart-copy
 </template>
 
 <script>
@@ -21,6 +23,7 @@ import ToolConditions from '../components/tools/ToolConditions.vue'
 import ToolDetails from '../components/tools/ToolDetails.vue'
 import ToolRepair from '~/components/tools/ToolRepair.vue'
 import LineChart from '~/components/tools/LineChart.vue'
+import LineChartCopy from '~/components/tools/LineChartCopy.vue'
 
 export default {
   name: 'ToolsPage',
@@ -30,7 +33,8 @@ export default {
     ToolConditions,
     ToolDetails,
     ToolRepair,
-    LineChart
+    LineChart,
+    LineChartCopy
   },
   layout: 'default',
   data () {

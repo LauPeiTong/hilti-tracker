@@ -1,6 +1,6 @@
 <template lang="pug">
-  v-card.white.pa-4.rounded-xl
-    canvas(ref="chart" id="chart" height="100")
+v-card.white.pa-4.rounded-xl
+  canvas(ref="chart" id="chart" height="100")
 </template>
 
 <script>
@@ -15,6 +15,7 @@ export default {
     return {
       temperatureData: [],
       timestamps: [],
+      rpmData: [],
       chart: null
     }
   },
@@ -40,15 +41,21 @@ export default {
       const data = snapshot.val()
       this.temperatureData = Object.values(data.temperature)
       this.timestamps = Object.values(data.timestamp)
-
+      this.rpmData = Object.values(data.rpm)
       // Update the chart with the new data
       if (this.chart) {
         this.chart.data.datasets[0].data = this.temperatureData
+        this.chart.data.datasets[1].data = this.rpmData
         this.chart.data.labels = this.timestamps
         this.chart.update()
       } else {
         this.createChart()
       }
+      // // Check if a chart is already displayed
+      // if (this.chart) {
+      //   // Destroy the existing chart
+      //   this.chart.destroy()
+      // }
     })
   },
   methods: {
@@ -56,8 +63,8 @@ export default {
       const ctx = document.getElementById('chart').getContext('2d')
 
       const gradient = ctx.createLinearGradient(0, 0, 0, 300)
-      gradient.addColorStop(0, 'rgba(253, 126, 20, 1)')
-      gradient.addColorStop(1, 'rgba(253, 126, 20, 0)')
+      // gradient.addColorStop(0, 'rgba(253, 126, 20, 1)')
+      // gradient.addColorStop(1, 'rgba(253, 126, 20, 0)')
 
       this.chart = new Chart(ctx, {
         type: 'line',
@@ -68,6 +75,12 @@ export default {
               label: 'Temperature',
               data: this.temperatureData,
               borderColor: '#FD7E14',
+              backgroundColor: gradient
+            },
+            {
+              label: 'Rpm',
+              data: this.rpmData,
+              borderColor: '#1890FF',
               backgroundColor: gradient
             }
           ]
