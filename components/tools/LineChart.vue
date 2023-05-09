@@ -83,11 +83,6 @@ export default {
       } else {
         this.createChart()
       }
-      // // Check if a chart is already displayed
-      // if (this.chart) {
-      //   // Destroy the existing chart
-      //   this.chart.destroy()
-      // }
     })
   },
   methods: {

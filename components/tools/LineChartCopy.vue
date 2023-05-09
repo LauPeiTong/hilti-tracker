@@ -1,12 +1,11 @@
 <template lang="pug">
-v-card
-    v-tabs
-      v-tab(v-for="(tab, index) in tabs" :key="index") {{ tab.name }}
-      v-tab-item(v-for="(tab, index) in tabs" :key="index")
-        canvas(ref="chart" :id="tab.id" height="100")
+v-card.white.pa-4.rounded-xl
+  canvas(ref="chart" id="chart" height="100")
 </template>
 
 <script>
+// import firebase from 'firebase/app'
+// import 'firebase/database'
 import firebase from 'firebase/compat/app'
 import 'firebase/compat/database'
 import Chart from 'chart.js/dist/Chart.js'
@@ -14,30 +13,10 @@ import Chart from 'chart.js/dist/Chart.js'
 export default {
   data () {
     return {
-      tabs: [
-        { name: 'Temperature', id: 'temperature-chart', data: [] },
-        { name: 'RPM', id: 'rpm-chart', data: [] }
-      ]
-    }
-  },
-  computed: {
-    timestamps () {
-      const data = this.tabs[0].data
-      if (data.length > 0) {
-        const start = new Date(data[0].timestamp)
-        const end = new Date(data[data.length - 1].timestamp)
-        const monthDiff = (end.getFullYear() - start.getFullYear()) * 12 + (end.getMonth() - start.getMonth()) + 1
-        const timestamps = []
-        for (let i = 0; i < monthDiff; i++) {
-          const month = start.getMonth() + i
-          const year = start.getFullYear() + Math.floor(month / 12)
-          const label = `${year}-${month % 12 + 1}`
-          timestamps.push(label)
-        }
-        return timestamps
-      } else {
-        return []
-      }
+      temperatureData: [],
+      timestamps: [],
+      rpmData: [],
+      chart: null
     }
   },
   mounted () {
@@ -55,41 +34,54 @@ export default {
     firebase.initializeApp(firebaseConfig)
 
     // Get reference to the 'test' node in Firebase
-    const temperatureRef = firebase.database().ref('test/temperature')
-    const rpmRef = firebase.database().ref('test/rpm')
+    const temperatureRef = firebase.database().ref('test')
 
-    // Listen for changes in the temperature data
+    // Listen for changes in the temperature and timestamp data
     temperatureRef.on('value', (snapshot) => {
       const data = snapshot.val()
-      this.tabs[0].data = Object.values(data)
-      this.updateChart(0)
-    })
-
-    // Listen for changes in the RPM data
-    rpmRef.on('value', (snapshot) => {
-      const data = snapshot.val()
-      this.tabs[1].data = Object.values(data)
-      this.updateChart(1)
+      this.temperatureData = Object.values(data.temperature)
+      this.timestamps = Object.values(data.timestamp)
+      this.rpmData = Object.values(data.rpm)
+      // Update the chart with the new data
+      if (this.chart) {
+        this.chart.data.datasets[0].data = this.temperatureData
+        this.chart.data.datasets[1].data = this.rpmData
+        this.chart.data.labels = this.timestamps
+        this.chart.update()
+      } else {
+        this.createChart()
+      }
+      // Keep only the last 10 elements in the arrays
+      if (this.temperatureData.length > 10) {
+        this.temperatureData = this.temperatureData.slice(-10)
+        this.rpmData = this.rpmData.slice(-10)
+        this.timestamps = this.timestamps.slice(-10)
+      }
     })
   },
   methods: {
-    createChart (tabIndex) {
-      const tab = this.tabs[tabIndex]
-      const ctx = document.getElementById(tab.id).getContext('2d')
+    createChart () {
+      const ctx = document.getElementById('chart').getContext('2d')
 
       const gradient = ctx.createLinearGradient(0, 0, 0, 300)
-      gradient.addColorStop(0, 'rgba(253, 126, 20, 1)')
-      gradient.addColorStop(1, 'rgba(253, 126, 20, 0)')
+      // gradient.addColorStop(0, 'rgba(253, 126, 20, 1)')
+      // gradient.addColorStop(1, 'rgba(253, 126, 20, 0)')
 
-      tab.chart = new Chart(ctx, {
+      this.chart = new Chart(ctx, {
         type: 'line',
         data: {
           labels: this.timestamps,
           datasets: [
             {
-              label: tab.name,
-              data: tab.data,
+              label: 'Temperature',
+              data: this.temperatureData,
               borderColor: '#FD7E14',
+              backgroundColor: gradient
+            },
+            {
+              label: 'Rpm',
+              data: this.rpmData,
+              borderColor: '#1890FF',
               backgroundColor: gradient
             }
           ]
@@ -111,17 +103,7 @@ export default {
           }
         }
       })
-    },
-
-    updateChart (tabIndex) {
-      const tab = this.tabs[tabIndex]
-
-      if (tab.chart) {
-        tab.chart.data.datasets[0].data = tab.data
-        tab.chart.update()
-      } else {
-        this.createChart(tabIndex)
-      }
     }
   }
 }
+</script>
