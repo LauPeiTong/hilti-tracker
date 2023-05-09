@@ -1,14 +1,20 @@
 <template lang="pug">
-  v-card.white.pa-4.rounded-xl
+  v-card.pa-4.rounded-xl.flexcard(outlined)
     v-row.product
       v-col.product-image(:cols="12" md="4")
         v-img.border.rounded-xl(:src="product.image" alt="Product Image" max-height="200" contain)
       v-col.product-details(:cols="12" md="8")
-        h2.mb-4 {{ product.name }}
-        p.mb-1 Tool ID : {{ product.id }}
-        p.mb-1 Warranty Date : {{ product.warranty }}
-        p.mb-1 Last Checked Time : {{ product.checktime }}
-        span.mb-1 Status :
+        h2.mb-4.fw-600 {{ product.name }}
+        p.mb-1.font-weight-medium Tool ID :
+          |
+          span.font-weight-regular  {{ product.id }}
+        p.mb-1.font-weight-medium Warranty Date :
+          |
+          span.font-weight-regular  {{ product.warranty }}
+        p.mb-1.font-weight-medium Last Checked Time :
+          |
+          span.font-weight-regular  {{ product.checktime }}
+        span.mb-1.font-weight-medium Status :
           |
           v-chip.ml-2(
             :color="getColor(product.status)"
@@ -43,9 +49,17 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
 .border {
   border: solid 1px rgba(0, 0, 0, .2) !important;
 }
 
+.fw-600 {
+  font-weight: 600 !important;
+}
+
+.flexcard {
+  display: flex;
+  flex-direction: column;
+}
 </style>

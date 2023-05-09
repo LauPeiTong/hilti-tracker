@@ -107,7 +107,7 @@
         v-if="isLoggedIn"
         class="profile rounded-xl"
       >
-        <div class="profile-details">
+        <div class="profile-details px-2">
           <img
             v-if="profileImg"
             :src="profileImg"

@@ -1,16 +1,12 @@
 <template lang="pug">
-v-row.tool-table.justify-center
-  v-card.width-80.pa-4.rounded-xl
+v-row.tool-table.justify-center.mx-auto
+  v-card.pa-4.rounded-xl(outlined)
     v-card-title
-      p Tool Status
+      p.mb-0 Tool Status
       v-spacer
-      v-text-field(
-        v-model="search"
-        append-icon="mdi-magnify"
-        label="Search"
-        single-line
-        hide-details
-      )
+    hr.mx-2
+
+    //- Datatable
     v-data-table(
       :headers="headers"
       :items="desserts"
@@ -25,7 +21,7 @@ v-row.tool-table.justify-center
           p.mb-0 {{ item.status }}
           v-icon.ml-2(v-if="item.status === 'Need Maintenance'" small) mdi-wrench
           v-icon.ml-2(v-if="item.status === 'Normal'" small) mdi-check-circle
-          v-icon.ml-2(v-if="item.status === 'Checking'" v-else small) mdi-clock-time-eight
+          v-icon.ml-2(v-if="item.status === 'Checking'" small) mdi-clock-time-eight
 
       template(v-slot:item.action="{ item }")
         v-btn(

@@ -1,9 +1,9 @@
 <template lang="pug">
 .tools-page.pa-0.ma-0.fill-width
-  upper-title.ma-0(:title="'Tools Status'" :titleClass="'dark-background'")
+  upper-title.ma-0(:title="'Tools'" :titleClass="'dark-background'" :icon="'bell'" :rightIconColor="$vuetify.theme.themes.light.tertiary")
   v-row.ma-0.pt-8.fill-width
     v-col(cols="12")
-      tool-table.py-16
+      tool-table.pt-12.align-center.px-4.pb-4
 </template>
 
 <script>

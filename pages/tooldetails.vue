@@ -2,15 +2,15 @@
 .tools-page.pa-0.ma-0.fill-width
   upper-title.ma-0(:title="'Tools Status'" :titleClass="'dark-background'")
   v-row.ma-0.pt-16.px-8.fill-width
-    v-col(cols="12")
+    v-col(cols="9")
       tool-details(:product="productData")
+    v-col(cols="3")
+      battery-status
     v-col(cols="9")
       line-chart
       tool-conditions.mt-3
     v-col(cols="3")
       tool-repair.fill-height
-    v-col(cols="91")
-      line-chart-copy
 </template>
 
 <script>
@@ -24,6 +24,7 @@ import ToolDetails from '../components/tools/ToolDetails.vue'
 import ToolRepair from '~/components/tools/ToolRepair.vue'
 import LineChart from '~/components/tools/LineChart.vue'
 import LineChartCopy from '~/components/tools/LineChartCopy.vue'
+import BatteryStatus from '~/components/tools/BatteryStatus.vue'
 
 export default {
   name: 'ToolsPage',
@@ -34,7 +35,8 @@ export default {
     ToolDetails,
     ToolRepair,
     LineChart,
-    LineChartCopy
+    LineChartCopy,
+    BatteryStatus
   },
   layout: 'default',
   data () {

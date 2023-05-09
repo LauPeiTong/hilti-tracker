@@ -1,16 +1,9 @@
 <template lang="pug">
   v-row.py-4.pl-4.upper-title(dense :class="titleClass")
-    //- v-col.text-center(:cols="2")
-    //-   f-icon(
-    //-     v-if="back === true"
-    //-     :icon-name="'arrow-ios-back-outline'"
-    //-     :icon-fill="titleClass == 'dark-background'? 'white' : iconColor"
-    //-     @click="emitBack()"
-    //-   )
     v-col(:cols="10")
       h3.font-weight-medium(:class="textColor") {{ title }}
-    v-col.text-center(:cols="2")
-      f-icon(
+    v-col.text-right.pr-4(:cols="2")
+      f-icon.notification.pt-10.pr-8(
         :icon-name="icon"
         :icon-fill="rightIconColor ?? iconColor"
         :border="border"
@@ -91,14 +84,20 @@ export default {
 
 <style lang="scss" scoped>
 .upper-title {
-  position: absolute !important;
+  position: fixed !important;
   top: 0;
   width: 100%;
-  border-radius: 0px 0px 25px 25px;
+  border-radius: 0px 0px 12px 12px;
   z-index: 100;
 }
 
 .dark-background {
   background-color: #D2051E;
+}
+
+.notification {
+  position: fixed;
+  top: 0;
+  right: 0;
 }
 </style>

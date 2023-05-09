@@ -1,6 +1,30 @@
 <template lang="pug">
-v-card.white.pa-4.rounded-xl
-  canvas(ref="chart" id="chart" height="100")
+v-card.pa-4.rounded-xl(outlined)
+  v-tabs.rounded-xl(vertical)
+    v-tab(active)
+      v-icon mdi-fire
+    v-tab
+      v-icon mdi-speedometer
+    v-tab
+      v-icon mdi-vibrate
+
+    v-tab-item
+      v-card.rounded-xl(outlined)
+        v-card-text
+          h3.fw-600.secondary--text Temperature
+          p.font-weight-regular.subtitle-2 Today, 8/5/2023
+          canvas(ref="chart" id="chart" height="100")
+
+    v-tab-item
+      v-card(flat)
+        v-card-text
+          p Sed aliquam ultrices mauris. Donec posuere vulputate arcu. Morbi ac felis. Etiam feugiat lorem non metus. Sed a libero.
+
+    v-tab-item
+      v-card(flat)
+        v-card-text
+          p Sed aliquam ultrices mauris. Donec posuere vulputate arcu. Morbi ac felis. Etiam feugiat lorem non metus. Sed a libero.
+
 </template>
 
 <script>
@@ -42,6 +66,14 @@ export default {
       this.temperatureData = Object.values(data.temperature)
       this.timestamps = Object.values(data.timestamp)
       this.rpmData = Object.values(data.rpm)
+
+      // Keep only the last 10 elements in the arrays
+      if (this.temperatureData.length > 10) {
+        this.temperatureData = this.temperatureData.slice(-10)
+        this.rpmData = this.rpmData.slice(-10)
+        this.timestamps = this.timestamps.slice(-10)
+      }
+
       // Update the chart with the new data
       if (this.chart) {
         this.chart.data.datasets[0].data = this.temperatureData
@@ -63,8 +95,8 @@ export default {
       const ctx = document.getElementById('chart').getContext('2d')
 
       const gradient = ctx.createLinearGradient(0, 0, 0, 300)
-      // gradient.addColorStop(0, 'rgba(253, 126, 20, 1)')
-      // gradient.addColorStop(1, 'rgba(253, 126, 20, 0)')
+      gradient.addColorStop(0, 'rgba(253, 126, 20, 1)')
+      gradient.addColorStop(1, 'rgba(253, 126, 20, 0)')
 
       this.chart = new Chart(ctx, {
         type: 'line',
@@ -76,29 +108,33 @@ export default {
               data: this.temperatureData,
               borderColor: '#FD7E14',
               backgroundColor: gradient
-            },
-            {
-              label: 'Rpm',
-              data: this.rpmData,
-              borderColor: '#1890FF',
-              backgroundColor: gradient
             }
+            // {
+            //   label: 'Rpm',
+            //   data: this.rpmData,
+            //   borderColor: '#1890FF',
+            //   backgroundColor: gradient
+            // }
           ]
         },
         options: {
           scales: {
-            xAxis: {
-              title: {
-                display: true,
-                text: 'Month'
+            yAxes: [{
+              gridLines: {
+                display: false
+              },
+              ticks: {
+                beginAtZero: true
               }
-            },
-            yAxis: {
-              title: {
-                display: true,
-                text: 'Value'
+            }],
+            xAxes: [{
+              gridLines: {
+                display: false
+              },
+              ticks: {
+                beginAtZero: true
               }
-            }
+            }]
           }
         }
       })
@@ -106,3 +142,9 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.fw-600 {
+  font-weight: 600 !important;
+}
+</style>
