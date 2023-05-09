@@ -3,6 +3,13 @@
     v-card-text
       h3.fw-600.secondary--text Battery Status
       p.font-weight-regular.subtitle-2 Last checked: 06:48 PM, 24/1/2023
+      .d-flex.align-center.justify-center
+        v-card.rounded-xl.battery-border.mb-2(height="100" width="210" outlined)
+          .d-flex.fill-height
+            v-card.rounded-xl.battery-remaining.mb-2.fill-height(outlined width="20%")
+            v-card.rounded-xl.battery-remaining.mb-2.fill-height(outlined width="20%")
+        v-card.battery-rounded.battery-border.mb-2(height="50" outlined)
+      h3.fw-600.primary--text.mb-0.text-center 38%
 
 </template>
 
@@ -39,5 +46,18 @@ export default {
 .flexcard {
   display: flex;
   flex-direction: column;
+}
+
+.battery-border {
+  border: solid 8px #696667;
+}
+
+.battery-remaining {
+  background-color: #D2051E;
+  border: solid 4px #ffffff;
+}
+
+.battery-rounded {
+  border-radius: 0 24px 24px 0;
 }
 </style>
