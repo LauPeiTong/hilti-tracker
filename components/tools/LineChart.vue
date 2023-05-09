@@ -42,6 +42,14 @@ export default {
       this.temperatureData = Object.values(data.temperature)
       this.timestamps = Object.values(data.timestamp)
       this.rpmData = Object.values(data.rpm)
+
+      // Keep only the last 10 elements in the arrays
+      if (this.temperatureData.length > 10) {
+        this.temperatureData = this.temperatureData.slice(-10)
+        this.rpmData = this.rpmData.slice(-10)
+        this.timestamps = this.timestamps.slice(-10)
+      }
+
       // Update the chart with the new data
       if (this.chart) {
         this.chart.data.datasets[0].data = this.temperatureData
@@ -51,11 +59,6 @@ export default {
       } else {
         this.createChart()
       }
-      // // Check if a chart is already displayed
-      // if (this.chart) {
-      //   // Destroy the existing chart
-      //   this.chart.destroy()
-      // }
     })
   },
   methods: {

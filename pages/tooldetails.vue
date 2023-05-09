@@ -9,8 +9,6 @@
       tool-conditions.mt-3
     v-col(cols="3")
       tool-repair.fill-height
-    v-col(cols="91")
-      line-chart-copy
 </template>
 
 <script>
