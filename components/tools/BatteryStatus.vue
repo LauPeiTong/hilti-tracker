@@ -56,6 +56,6 @@ export default {
 }
 
 .battery-rounded {
-  border-radius: 0 24px 24px 0;
+  border-radius: 0 24px 24px 0  !important;
 }
 </style>
