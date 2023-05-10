@@ -4,23 +4,40 @@
       h3.fw-600.secondary--text Status Analysis
       ApexCharts.d-flex.justify-space-around.pt-2(type="donut" :options="chartOptions" :series="series" width="250" height="250")
 
-    v-card-title(class="text-center")
-      b Prediction Accuracy
-    v-card-subtitle(class="text-center")
-      b 96.7%
+    v-card-text.pt-0(class="text-center")
+      h3.fw-600.secondary--text Prediction Accuracy
+      p.primary--text 65.6%
 
-    v-card-title(class="text-center")
-      b Please repair before
-    v-card-subtitle(class="text-center")
-      b 31/1/2023
+      h3.fw-600.secondary--text Please repair before
+      p.secondary--text 31/8/2024
 
-    v-card-title(class="text-center")
-      b Repair Fee
-    v-card-subtitle(class="text-center")
-      b Free (within warranty period)
+      h3.fw-600.secondary--text Repair Fee
+      p.secondary--text Free (within warranty period)
 
-    v-card-actions
-      v-space
+      v-card.rounded-lg.mt-6.text-left(outlined)
+        v-card-text
+          p.mb-0 Last checked value of
+          h2.secondary--text.fw-600.mb-5 Temperature
+          h3.fw-600.primary--text +34%
+            |
+            span.font-weight-regular.grey--text  since yesterday
+
+      v-card.rounded-lg.mt-6.text-left(outlined)
+        v-card-text
+          p.mb-0 Last checked value of
+          h2.secondary--text.fw-600.mb-5 RPM
+          h3.fw-600.primary--text +12%
+            |
+            span.font-weight-regular.grey--text  since yesterday
+
+      v-card.rounded-lg.mt-6.text-left(outlined)
+        v-card-text
+          p.mb-0 Last checked value of
+          h2.secondary--text.fw-600.mb-5 Vibration
+          h3.fw-600.primary--text +27%
+            |
+            span.font-weight-regular.grey--text  since yesterday
+
 </template>
 
 <script>
@@ -57,7 +74,7 @@ export default {
                   }
                 },
                 value: {
-                  color: '#333333',
+                  color: '#D2051E',
                   fontSize: '28px',
                   fontWeight: '600'
                 }
@@ -84,3 +101,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.fw-600 {
+  font-weight: 600 !important;
+}
+</style>

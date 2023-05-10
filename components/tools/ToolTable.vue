@@ -59,14 +59,14 @@ export default {
           id: 'T10-12118A',
           name: 'SF 4-A22 CORDLESS DRILL DRIVER',
           dt: '06:48 PM, 24/1/2023',
-          status: 'Normal',
+          status: 'Need Maintenance',
           action: ''
         },
         {
           id: 'T10-12119A',
           name: 'TE 2-A22 CORDLESS ROTARY HAMMER',
           dt: '06:48 PM, 24/1/2023',
-          status: 'Need Maintenance',
+          status: 'Normal',
           action: ''
         },
         {

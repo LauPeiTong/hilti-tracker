@@ -16,7 +16,8 @@ export default new Vuetify({
         success: '#FEB81E', // yellow
         brown: '#918679',
         green: '#52C41A',
-        blue: '#1890FF'
+        blue: '#1890FF',
+        grey: '#757575'
       }
     }
   }
