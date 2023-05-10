@@ -13,12 +13,12 @@ v-card.pa-4.rounded-xl(outlined)
         v-card-text
           h3.fw-600.secondary--text Temperature
           p.font-weight-regular.subtitle-2 Today, 8/5/2023
-          canvas(ref="chart" id="chart" height="100")
+          canvas(ref="tempChart" id="tempChart" height="100")
 
     v-tab-item
       v-card(flat)
         v-card-text
-          p Sed aliquam ultrices mauris. Donec posuere vulputate arcu. Morbi ac felis. Etiam feugiat lorem non metus. Sed a libero.
+          canvas(ref="rpmChart" id="rpmChart" height="100")
 
     v-tab-item
       v-card(flat)
@@ -40,7 +40,8 @@ export default {
       temperatureData: [],
       timestamps: [],
       rpmData: [],
-      chart: null
+      tempChart: null,
+      rpmChart: null
     }
   },
   mounted () {
@@ -59,41 +60,61 @@ export default {
 
     // Get reference to the 'test' node in Firebase
     const temperatureRef = firebase.database().ref('test')
+    const rpmRef = firebase.database().ref('test')
 
     // Listen for changes in the temperature and timestamp data
     temperatureRef.on('value', (snapshot) => {
       const data = snapshot.val()
       this.temperatureData = Object.values(data.temperature)
       this.timestamps = Object.values(data.timestamp)
-      this.rpmData = Object.values(data.rpm)
 
       // Keep only the last 10 elements in the arrays
       if (this.temperatureData.length > 10) {
         this.temperatureData = this.temperatureData.slice(-10)
+        this.timestamps = this.timestamps.slice(-10)
+      }
+
+      // Update the chart with the new data
+      if (this.tempChart) {
+        this.tempChart.data.datasets[0].data = this.temperatureData
+        this.tempChart.data.labels = this.timestamps
+        this.tempChart.update()
+      } else {
+        this.createTempChart()
+      }
+    })
+
+    // Listen for changes in the temperature and timestamp data
+    rpmRef.on('value', (snapshot) => {
+      const data = snapshot.val()
+      this.timestamps = Object.values(data.timestamp)
+      this.rpmData = Object.values(data.rpm)
+
+      // Keep only the last 10 elements in the arrays
+      if (this.rpmData.length > 10) {
         this.rpmData = this.rpmData.slice(-10)
         this.timestamps = this.timestamps.slice(-10)
       }
 
       // Update the chart with the new data
-      if (this.chart) {
-        this.chart.data.datasets[0].data = this.temperatureData
-        this.chart.data.datasets[1].data = this.rpmData
-        this.chart.data.labels = this.timestamps
-        this.chart.update()
+      if (this.rpmChart) {
+        this.rpmChart.data.datasets[0].data = this.rpmData
+        this.rpmChart.data.labels = this.timestamps
+        this.rpmChart.update()
       } else {
-        this.createChart()
+        this.createRpmChart()
       }
     })
   },
   methods: {
-    createChart () {
-      const ctx = document.getElementById('chart').getContext('2d')
+    createTempChart () {
+      const ctx = document.getElementById('tempChart').getContext('2d')
 
       const gradient = ctx.createLinearGradient(0, 0, 0, 300)
       gradient.addColorStop(0, 'rgba(253, 126, 20, 1)')
       gradient.addColorStop(1, 'rgba(253, 126, 20, 0)')
 
-      this.chart = new Chart(ctx, {
+      this.tempChart = new Chart(ctx, {
         type: 'line',
         data: {
           labels: this.timestamps,
@@ -110,6 +131,54 @@ export default {
             //   borderColor: '#1890FF',
             //   backgroundColor: gradient
             // }
+          ]
+        },
+        options: {
+          scales: {
+            yAxes: [{
+              gridLines: {
+                display: false
+              },
+              ticks: {
+                beginAtZero: true
+              }
+            }],
+            xAxes: [{
+              gridLines: {
+                display: false
+              },
+              ticks: {
+                beginAtZero: true
+              }
+            }]
+          }
+        }
+      })
+    },
+    createRpmChart () {
+      const ctx2 = document.getElementById('rpmChart').getContext('2d')
+
+      const gradient = ctx2.createLinearGradient(0, 0, 0, 300)
+      gradient.addColorStop(0, 'rgba(24, 144, 255, 1)')
+      gradient.addColorStop(1, 'rgba(24, 144, 255, 0)')
+
+      this.rpmChart = new Chart(ctx2, {
+        type: 'line',
+        data: {
+          labels: this.timestamps,
+          datasets: [
+            // {
+            //   label: 'Temperature',
+            //   data: this.temperatureData,
+            //   borderColor: '#FD7E14',
+            //   backgroundColor: gradient
+            // }
+            {
+              label: 'Rpm',
+              data: this.rpmData,
+              borderColor: '#1890FF',
+              backgroundColor: gradient
+            }
           ]
         },
         options: {
