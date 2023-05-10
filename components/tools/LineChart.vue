@@ -1,32 +1,41 @@
 <template lang="pug">
 v-card.pa-4.rounded-xl(outlined)
-  canvas(ref="chart" id="chart" height="100")
-  canvas(ref="rpmchart" id="rpmchart" height="100")
-  canvas(ref="vibrationchart" id="vibrationchart" height="100")
-  v-tabs.rounded-xl(vertical)
-    v-tab(active)
-      v-icon mdi-fire
-    v-tab
-      v-icon mdi-speedometer
-    v-tab
-      v-icon mdi-vibrate
+  v-card-text
+    h2.fw-600.secondary--text.mb-4 Real Time Data
+    v-card.rounded-xl.mb-4(outlined)
+      v-card-text
+        .d-flex
+          v-img.icon(:src="require('../../assets/1.png')" width="50")
+          .d-grid.ml-2
+            h3.fw-600.secondary--text Temperature (°C)
+            p.font-weight-regular.subtitle-2 Today, 8/5/2023
+        canvas(ref="chart" id="chart" height="80")
 
-    v-tab-item
-      v-card.rounded-xl(outlined)
-        v-card-text
-          h3.fw-600.secondary--text Temperature
-          p.font-weight-regular.subtitle-2 Today, 8/5/2023
+    v-card.rounded-xl.mb-4(outlined)
+      v-card-text
+        .d-flex
+          v-img.icon(:src="require('../../assets/2.png')" width="50")
+          .d-grid.ml-2
+            h3.fw-600.secondary--text RPM (r/min)
+            p.font-weight-regular.subtitle-2 Today, 8/5/2023
+        canvas(ref="rpmchart" id="rpmchart" height="80")
 
-    v-tab-item
-      v-card.rounded-xl(outlined)
-        v-card-text
-          h3.fw-600.secondary--text Rpm
-          p.font-weight-regular.subtitle-2 Today, 8/5/2023
+    v-card.rounded-xl(outlined)
+      v-card-text
+        .d-flex
+          v-img.icon(:src="require('../../assets/3.png')" width="50")
+          .d-grid.ml-2
+            h3.fw-600.secondary--text Vibration (Hz)
+            p.font-weight-regular.subtitle-2 Today, 8/5/2023
+        canvas(ref="vibrationchart" id="vibrationchart" height="80")
 
-    v-tab-item
-      v-card(flat)
-        v-card-text
-          p Sed aliquam ultrices mauris. Donec posuere vulputate arcu. Morbi ac felis. Etiam feugiat lorem non metus. Sed a libero.
+  //- v-tabs.rounded-xl(vertical)
+  //-   v-tab(active)
+  //-     v-icon mdi-fire
+  //-   v-tab
+  //-     v-icon mdi-speedometer
+  //-   v-tab
+  //-     v-icon mdi-vibrate
 
 </template>
 
@@ -105,17 +114,15 @@ export default {
       // Update the chart with the new data
       if (this.chart) {
         this.chart.data.datasets[0].data = this.temperatureData
-        // this.chart.data.datasets[1].data = this.rpmData
         this.chart.data.labels = this.timestamps
         this.chart.update()
       } else {
-        this.createRpmChart()
+        this.createTempChart()
       }
 
       // Update the chart with the new data
       if (this.rpmchart) {
         this.chart.data.datasets[0].data = this.rpmData
-        // this.chart.data.datasets[1].data = this.rpmData
         this.chart.data.labels = this.timestamps
         this.chart.update()
       } else {
@@ -135,13 +142,13 @@ export default {
   },
   methods: {
     createTempChart () {
-      const ctx = document.getElementById('tempChart').getContext('2d')
+      const ctx = document.getElementById('chart').getContext('2d')
 
       const gradient = ctx.createLinearGradient(0, 0, 0, 300)
       gradient.addColorStop(0, 'rgba(253, 126, 20, 1)')
       gradient.addColorStop(1, 'rgba(253, 126, 20, 0)')
 
-      this.tempChart = new Chart(ctx, {
+      this.chart = new Chart(ctx, {
         type: 'line',
         data: {
           labels: this.timestamps,
@@ -180,8 +187,8 @@ export default {
       const ctx = document.getElementById('rpmchart').getContext('2d')
 
       const gradient = ctx.createLinearGradient(0, 0, 0, 300)
-      gradient.addColorStop(0, 'rgba(253, 126, 20, 1)')
-      gradient.addColorStop(1, 'rgba(253, 126, 20, 0)')
+      gradient.addColorStop(0, 'rgba(24, 144, 255, 1)')
+      gradient.addColorStop(1, 'rgba(24, 144, 255, 0)')
 
       this.chart = new Chart(ctx, {
         type: 'line',
@@ -222,8 +229,8 @@ export default {
       const ctx = document.getElementById('vibrationchart').getContext('2d')
 
       const gradient = ctx.createLinearGradient(0, 0, 0, 300)
-      gradient.addColorStop(0, 'rgba(253, 126, 20, 1)')
-      gradient.addColorStop(1, 'rgba(253, 126, 20, 0)')
+      gradient.addColorStop(0, 'rgba(82, 196, 26, 1)')
+      gradient.addColorStop(1, 'rgba(82, 196, 26, 0)')
 
       this.chart = new Chart(ctx, {
         type: 'line',
@@ -233,7 +240,7 @@ export default {
             {
               label: 'Vibration',
               data: this.vibrationData,
-              borderColor: '#1890FF',
+              borderColor: '#52C41A',
               backgroundColor: gradient
             }
           ]
@@ -269,4 +276,7 @@ export default {
   font-weight: 600 !important;
 }
 
+.icon {
+  max-width: 50px;
+}
 </style>

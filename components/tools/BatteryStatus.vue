@@ -35,8 +35,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
-
 .fw-600 {
   font-weight: 600 !important;
 }

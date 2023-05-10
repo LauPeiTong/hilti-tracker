@@ -17,14 +17,14 @@
         span.mb-1.font-weight-medium Status :
           |
           v-chip.ml-2(
-            :color="getColor(product.status)"
+            :color="getColor(getStatus())"
             outlined
             pill
           )
             p.mb-0 {{ getStatus() }}
-            v-icon.ml-2(v-if="product.status === 'Need Maintenance'" small) mdi-wrench
-            v-icon.ml-2(v-if="product.status === 'Normal'" small) mdi-check-circle
-            v-icon.ml-2(v-if="product.status === 'Checking'" v-else small) mdi-clock-time-eight
+            v-icon.ml-2(v-if="getStatus() === 'Need maintenance'" small) mdi-wrench
+            v-icon.ml-2(v-if="getStatus() === 'Normal'" small) mdi-check-circle
+            v-icon.ml-2(v-if="getStatus() === 'Checking'" small) mdi-clock-time-eight
 
 </template>
 
