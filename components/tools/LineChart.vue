@@ -1,5 +1,8 @@
 <template lang="pug">
 v-card.pa-4.rounded-xl(outlined)
+  canvas(ref="chart" id="chart" height="100")
+  canvas(ref="rpmchart" id="rpmchart" height="100")
+  canvas(ref="vibrationchart" id="vibrationchart" height="100")
   v-tabs.rounded-xl(vertical)
     v-tab(active)
       v-icon mdi-fire
@@ -13,12 +16,12 @@ v-card.pa-4.rounded-xl(outlined)
         v-card-text
           h3.fw-600.secondary--text Temperature
           p.font-weight-regular.subtitle-2 Today, 8/5/2023
-          canvas(ref="tempChart" id="tempChart" height="100")
 
     v-tab-item
-      v-card(flat)
+      v-card.rounded-xl(outlined)
         v-card-text
-          canvas(ref="rpmChart" id="rpmChart" height="100")
+          h3.fw-600.secondary--text Rpm
+          p.font-weight-regular.subtitle-2 Today, 8/5/2023
 
     v-tab-item
       v-card(flat)
@@ -40,8 +43,8 @@ export default {
       temperatureData: [],
       timestamps: [],
       rpmData: [],
-      tempChart: null,
-      rpmChart: null
+      vibrationData: [],
+      chart: null
     }
   },
   mounted () {
@@ -67,6 +70,8 @@ export default {
       const data = snapshot.val()
       this.temperatureData = Object.values(data.temperature)
       this.timestamps = Object.values(data.timestamp)
+      this.rpmData = Object.values(data.rpm)
+      this.vibrationData = Object.values(data.vibrate)
 
       // Keep only the last 10 elements in the arrays
       if (this.temperatureData.length > 10) {
@@ -94,15 +99,37 @@ export default {
       if (this.rpmData.length > 10) {
         this.rpmData = this.rpmData.slice(-10)
         this.timestamps = this.timestamps.slice(-10)
+        this.vibrationData = this.vibrationData.slice(-10)
       }
 
       // Update the chart with the new data
-      if (this.rpmChart) {
-        this.rpmChart.data.datasets[0].data = this.rpmData
-        this.rpmChart.data.labels = this.timestamps
-        this.rpmChart.update()
+      if (this.chart) {
+        this.chart.data.datasets[0].data = this.temperatureData
+        // this.chart.data.datasets[1].data = this.rpmData
+        this.chart.data.labels = this.timestamps
+        this.chart.update()
       } else {
         this.createRpmChart()
+      }
+
+      // Update the chart with the new data
+      if (this.rpmchart) {
+        this.chart.data.datasets[0].data = this.rpmData
+        // this.chart.data.datasets[1].data = this.rpmData
+        this.chart.data.labels = this.timestamps
+        this.chart.update()
+      } else {
+        this.createRpmChart()
+      }
+
+      // Update the chart with the new data
+      if (this.vibrationchart) {
+        this.chart.data.datasets[0].data = this.vibrationData
+        // this.chart.data.datasets[1].data = this.rpmData
+        this.chart.data.labels = this.timestamps
+        this.chart.update()
+      } else {
+        this.createVibrationChart()
       }
     })
   },
@@ -125,12 +152,6 @@ export default {
               borderColor: '#FD7E14',
               backgroundColor: gradient
             }
-            // {
-            //   label: 'Rpm',
-            //   data: this.rpmData,
-            //   borderColor: '#1890FF',
-            //   backgroundColor: gradient
-            // }
           ]
         },
         options: {
@@ -156,26 +177,62 @@ export default {
       })
     },
     createRpmChart () {
-      const ctx2 = document.getElementById('rpmChart').getContext('2d')
+      const ctx = document.getElementById('rpmchart').getContext('2d')
 
-      const gradient = ctx2.createLinearGradient(0, 0, 0, 300)
-      gradient.addColorStop(0, 'rgba(24, 144, 255, 1)')
-      gradient.addColorStop(1, 'rgba(24, 144, 255, 0)')
+      const gradient = ctx.createLinearGradient(0, 0, 0, 300)
+      gradient.addColorStop(0, 'rgba(253, 126, 20, 1)')
+      gradient.addColorStop(1, 'rgba(253, 126, 20, 0)')
 
-      this.rpmChart = new Chart(ctx2, {
+      this.chart = new Chart(ctx, {
         type: 'line',
         data: {
           labels: this.timestamps,
           datasets: [
-            // {
-            //   label: 'Temperature',
-            //   data: this.temperatureData,
-            //   borderColor: '#FD7E14',
-            //   backgroundColor: gradient
-            // }
             {
               label: 'Rpm',
               data: this.rpmData,
+              borderColor: '#1890FF',
+              backgroundColor: gradient
+            }
+          ]
+        },
+        options: {
+          scales: {
+            yAxes: [{
+              gridLines: {
+                display: false
+              },
+              ticks: {
+                beginAtZero: true
+              }
+            }],
+            xAxes: [{
+              gridLines: {
+                display: false
+              },
+              ticks: {
+                beginAtZero: true
+              }
+            }]
+          }
+        }
+      })
+    },
+    createVibrationChart () {
+      const ctx = document.getElementById('vibrationchart').getContext('2d')
+
+      const gradient = ctx.createLinearGradient(0, 0, 0, 300)
+      gradient.addColorStop(0, 'rgba(253, 126, 20, 1)')
+      gradient.addColorStop(1, 'rgba(253, 126, 20, 0)')
+
+      this.chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: this.timestamps,
+          datasets: [
+            {
+              label: 'Vibration',
+              data: this.vibrationData,
               borderColor: '#1890FF',
               backgroundColor: gradient
             }

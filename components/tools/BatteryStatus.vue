@@ -35,9 +35,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.border {
-  border: solid 1px rgba(0, 0, 0, .2) !important;
-}
+
 
 .fw-600 {
   font-weight: 600 !important;
@@ -49,15 +47,15 @@ export default {
 }
 
 .battery-border {
-  border: solid 8px #696667;
+  border: solid 8px #696667 !important;
 }
 
 .battery-remaining {
-  background-color: #D2051E;
-  border: solid 4px #ffffff;
+  background-color: #D2051E !important;
+  border: solid 4px #ffffff !important;
 }
 
 .battery-rounded {
-  border-radius: 0 24px 24px 0;
+  border-radius: 0 24px 24px 0  !important;
 }
 </style>
