@@ -8,7 +8,7 @@ v-card.pa-4.rounded-xl(outlined)
           v-img.icon(:src="require('../../assets/1.png')" width="50")
           .d-grid.ml-2
             h3.fw-600.secondary--text Temperature (°C)
-            p.font-weight-regular.subtitle-2 Today, 8/5/2023
+            p.font-weight-regular.subtitle-2 Today, 11/5/2023
         canvas(ref="chart" id="chart" height="80")
 
     v-card.rounded-xl.mb-4(outlined)
@@ -17,7 +17,7 @@ v-card.pa-4.rounded-xl(outlined)
           v-img.icon(:src="require('../../assets/2.png')" width="50")
           .d-grid.ml-2
             h3.fw-600.secondary--text RPM (r/min)
-            p.font-weight-regular.subtitle-2 Today, 8/5/2023
+            p.font-weight-regular.subtitle-2 Today, 11/5/2023
         canvas(ref="rpmchart" id="rpmchart" height="80")
 
     v-card.rounded-xl(outlined)
@@ -26,7 +26,7 @@ v-card.pa-4.rounded-xl(outlined)
           v-img.icon(:src="require('../../assets/3.png')" width="50")
           .d-grid.ml-2
             h3.fw-600.secondary--text Vibration (Hz)
-            p.font-weight-regular.subtitle-2 Today, 8/5/2023
+            p.font-weight-regular.subtitle-2 Today, 11/5/2023
         canvas(ref="vibrationchart" id="vibrationchart" height="80")
 
   //- v-tabs.rounded-xl(vertical)

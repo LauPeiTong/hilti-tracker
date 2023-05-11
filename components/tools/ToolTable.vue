@@ -30,6 +30,22 @@ v-row.tool-table.justify-center.mx-auto
           :to="'/tooldetails'"
         )
           v-icon mdi-magnify
+
+      template(v-slot:body.prepend)
+          tr
+            td.py-4
+              v-text-field(v-model="toolid" type="text" label="Tool ID" hide-details="auto" dense outlined)
+            td.py-4
+              v-text-field(v-model="toolname" type="text" label="Tool Name" hide-details="auto" dense outlined)
+            td.py-4
+              v-text-field(v-model="time" type="text" label="Date & Time" hide-details="auto" dense outlined)
+            td.py-4
+              v-select.select-category(:items="statusList" label="Select a status" v-model="status" hide-details="auto" multiple chips dense outlined)
+                template(v-slot:selection="{ item, index }")
+                  v-chip(:color="getColor(item)" outlined)
+                    span {{ item }}
+            td.py-4.text-center
+              v-icon.white--text mdi-magnify
 </template>
 
 <script>
@@ -38,6 +54,11 @@ export default {
   data () {
     return {
       search: '',
+      toolid: '',
+      toolname: '',
+      time: '',
+      status: '',
+      statusList: ['Normal', 'Need Maintenance', 'Checking'],
       headers: [
         {
           text: 'Tools ID',
@@ -50,15 +71,19 @@ export default {
         {
           text: 'Status',
           align: 'center',
-          value: 'status'
+          value: 'status',
+          filter: (value) => {
+            if (this.status.length === 0) { return true }
+            return this.status.includes(value)
+          }
         },
-        { text: 'Action', value: 'action' }
+        { text: 'Action', value: 'action', sortable: false }
       ],
       desserts: [
         {
           id: 'T10-12118A',
           name: 'SF 4-A22 CORDLESS DRILL DRIVER',
-          dt: '06:48 PM, 24/1/2023',
+          dt: '12:57 PM, 11/5/2023',
           status: 'Need Maintenance',
           action: ''
         },
@@ -156,4 +181,13 @@ export default {
 .width-80 {
   width: 90% !important;
 }
+
+:deep(.select-category .v-chip .v-chip__content) {
+  font-size: 12px !important;
+}
+
+:deep(.select-category .v-chip.v-size--default) {
+  height: 20px;
+}
+
 </style>

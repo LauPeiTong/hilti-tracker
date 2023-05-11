@@ -47,7 +47,7 @@ export default {
         id: 'T10-12118A',
         warranty: '2023-06-25',
         status: 'Normal',
-        checktime: '6:00 PM, 4/1/2023',
+        checktime: '12:57 PM, 11/5/2023',
         image: 'https://shorturl.at/MPRV6'
       }
     }

@@ -38,6 +38,10 @@
             |
             span.font-weight-regular.grey--text  since yesterday
 
+      v-btn.primary.mt-6(depressed) Send to repair
+        |
+        v-icon.ml-2(small) mdi-wrench
+
 </template>
 
 <script>
