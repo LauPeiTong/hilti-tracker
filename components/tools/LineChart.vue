@@ -53,7 +53,9 @@ export default {
       timestamps: [],
       rpmData: [],
       vibrationData: [],
-      chart: null
+      chart: null,
+      rpmchart: null,
+      vibrationchart: null
     }
   },
   mounted () {
@@ -71,45 +73,47 @@ export default {
     firebase.initializeApp(firebaseConfig)
 
     // Get reference to the 'test' node in Firebase
-    const temperatureRef = firebase.database().ref('test')
+    // const temperatureRef = firebase.database().ref('test')
     const rpmRef = firebase.database().ref('test')
 
     // Listen for changes in the temperature and timestamp data
-    temperatureRef.on('value', (snapshot) => {
-      const data = snapshot.val()
-      this.temperatureData = Object.values(data.temperature)
-      this.timestamps = Object.values(data.timestamp)
-      this.rpmData = Object.values(data.rpm)
-      this.vibrationData = Object.values(data.vibrate)
+    // temperatureRef.on('value', (snapshot) => {
+    //   const data = snapshot.val()
+    //   this.temperatureData = Object.values(data.temperature).slice(-10)
+    //   this.timestamps = Object.values(data.timestamp).slice(-10)
+    //   this.rpmData = Object.values(data.rpm).slice(-10)
+    //   this.vibrationData = Object.values(data.vibrate).slice(-10)
 
-      // Keep only the last 10 elements in the arrays
-      if (this.temperatureData.length > 10) {
-        this.temperatureData = this.temperatureData.slice(-10)
-        this.timestamps = this.timestamps.slice(-10)
-      }
+    //   // // Keep only the last 10 elements in the arrays
+    //   // if (this.temperatureData.length > 10) {
+    //   //   this.temperatureData = this.temperatureData.slice(-10)
+    //   //   this.timestamps = this.timestamps.slice(-10)
+    //   // }
 
-      // Update the chart with the new data
-      if (this.tempChart) {
-        this.tempChart.data.datasets[0].data = this.temperatureData
-        this.tempChart.data.labels = this.timestamps
-        this.tempChart.update()
-      } else {
-        this.createTempChart()
-      }
-    })
+    //   // Update the chart with the new data
+    //   if (this.tempChart) {
+    //     this.tempChart.data.datasets[0].data = this.temperatureData
+    //     this.tempChart.data.labels = this.timestamps
+    //     this.tempChart.update()
+    //   } else {
+    //     this.createTempChart()
+    //   }
+    // })
 
     // Listen for changes in the temperature and timestamp data
     rpmRef.on('value', (snapshot) => {
       const data = snapshot.val()
-      this.timestamps = Object.values(data.timestamp)
-      this.rpmData = Object.values(data.rpm)
+      this.temperatureData = Object.values(data.temperature).slice(-10)
+      this.timestamps = Object.values(data.timestamp).slice(-10)
+      this.rpmData = Object.values(data.rpm).slice(-10)
+      this.vibrationData = Object.values(data.vibrate).slice(-10)
 
-      // Keep only the last 10 elements in the arrays
-      if (this.rpmData.length > 10) {
-        this.rpmData = this.rpmData.slice(-10)
-        this.timestamps = this.timestamps.slice(-10)
-        this.vibrationData = this.vibrationData.slice(-10)
-      }
+      // // Keep only the last 10 elements in the arrays
+      // if (this.rpmData.length > 10) {
+      //   this.rpmData = this.rpmData.slice(-10)
+      //   this.timestamps = this.timestamps.slice(-10)
+      //   this.vibrationData = this.vibrationData.slice(-10)
+      // }
 
       // Update the chart with the new data
       if (this.chart) {
@@ -122,19 +126,18 @@ export default {
 
       // Update the chart with the new data
       if (this.rpmchart) {
-        this.chart.data.datasets[0].data = this.rpmData
-        this.chart.data.labels = this.timestamps
-        this.chart.update()
+        this.rpmchart.data.datasets[0].data = this.rpmData
+        this.rpmchart.data.labels = this.timestamps
+        this.rpmchart.update()
       } else {
         this.createRpmChart()
       }
 
       // Update the chart with the new data
       if (this.vibrationchart) {
-        this.chart.data.datasets[0].data = this.vibrationData
-        // this.chart.data.datasets[1].data = this.rpmData
-        this.chart.data.labels = this.timestamps
-        this.chart.update()
+        this.vibrationchart.data.datasets[0].data = this.vibrationData
+        this.vibrationchart.data.labels = this.timestamps
+        this.vibrationchart.update()
       } else {
         this.createVibrationChart()
       }
@@ -190,7 +193,7 @@ export default {
       gradient.addColorStop(0, 'rgba(24, 144, 255, 1)')
       gradient.addColorStop(1, 'rgba(24, 144, 255, 0)')
 
-      this.chart = new Chart(ctx, {
+      this.rpmchart = new Chart(ctx, {
         type: 'line',
         data: {
           labels: this.timestamps,
@@ -232,7 +235,7 @@ export default {
       gradient.addColorStop(0, 'rgba(82, 196, 26, 1)')
       gradient.addColorStop(1, 'rgba(82, 196, 26, 0)')
 
-      this.chart = new Chart(ctx, {
+      this.vibrationchart = new Chart(ctx, {
         type: 'line',
         data: {
           labels: this.timestamps,
