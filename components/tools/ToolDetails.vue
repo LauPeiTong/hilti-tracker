@@ -82,7 +82,11 @@ export default {
       }
     },
     getStatus () {
-      return this.statusData[this.statusData.length - 1]
+      if (this.statusData[this.statusData.length - 1]) {
+        return this.statusData[this.statusData.length - 1]
+      } else {
+        return 'Checking'
+      }
     }
   }
 }
